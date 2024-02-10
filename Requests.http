@@ -1,0 +1,10 @@
+POST http://localhost:8000/facade_post_message
+Content-Type: application/json
+
+{
+  "message": "Message 2"
+}
+
+###
+
+GET http://localhost:8000/facade_get_messages
