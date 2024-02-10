@@ -10,4 +10,5 @@ Homeworks are saved in separate branches in this repository.
 Homeworks are implemented in Python programming language. Use requirements.txt to install dependencies.
 
 ## Useful commands
-Below, some useful commands can be found, that can be used to run the homeworks.
+Below, some useful commands can be found.
+...
