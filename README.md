@@ -11,3 +11,8 @@ Homeworks are implemented in Python programming language. Use requirements.txt t
 
 ## Useful commands
 Below, some useful commands can be found, that can be used to run the homeworks.
+
+```shell
+./hz-start.bat
+\management-center\bin> ./start.bat
+```
