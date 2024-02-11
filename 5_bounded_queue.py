@@ -16,7 +16,7 @@ def producer():
     for i in range(100):
         value = "value-" + str(i)
         # Offer the value to the queue, blocking if the queue is full
-        queue.offer(value)  # put or offer
+        queue.offer(value, timeout=10)  # put or offer
         logger.info("Producing {}".format(value))
 
     # Shutdown the Hazelcast client
