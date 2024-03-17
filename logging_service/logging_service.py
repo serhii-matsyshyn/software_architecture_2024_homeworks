@@ -30,6 +30,7 @@ class LoggingService:
         self.client = hazelcast.HazelcastClient(cluster_name="dev")
 
         self.distributed_map = self.client.get_map("map").blocking()
+        self.distributed_queue = self.client.get_queue("queue").blocking()
 
     def _cleanup(self):
         logger.info("Terminating hazelcast")
@@ -47,6 +48,7 @@ class LoggingService:
     def add_message(self, message: Message):
         logger.info(f"Logged message: {message}")
         self.distributed_map.put(message.uuid, message.message)
+        self.distributed_queue.offer(message.message, timeout=5)
 
     def get_messages(self):
         return [val for val in self.distributed_map.values()]

@@ -1,19 +1,37 @@
 import logging
+from threading import Thread
 
-from fastapi import FastAPI
+import hazelcast
 
-logging.basicConfig(level=logging.DEBUG)
+from message import Message
+
+logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
-
-app = FastAPI()
-
-
-@app.get("/messages_get_message")
-async def get_static_message():
-    return {"message": "not implemented yet"}
+logger.setLevel(logging.INFO)
 
 
-if __name__ == "__main__":
-    import uvicorn
+class MessagesService:
+    def __init__(self):
+        self.internal_memory_storage = []
 
-    uvicorn.run(app, host="0.0.0.0", port=8002)
+        self.client = hazelcast.HazelcastClient(cluster_name="dev")
+
+        self.distributed_queue = self.client.get_queue("queue").blocking()
+        self.running = True
+
+        self.consumer = Thread(target=self.consume_messages)
+        self.consumer.start()
+
+    def get_stored_messages(self):
+        return [msg.message for msg in self.internal_memory_storage]
+
+    def consume_messages(self):
+        while self.running:
+            data = self.distributed_queue.poll(3)
+            if data:
+                logger.info(f"Consuming {data}")
+                self.internal_memory_storage.append(Message(data))
+
+    def __del__(self):
+        self.running = False
+        self.consumer.join()

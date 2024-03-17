@@ -19,7 +19,7 @@ You should have hazelcast on Windows in `hazelcast\hazelcast-5.3.6\` folder.
 \management-center\bin> ./start.bat
 ```
 
-### To run homework 3
+### To run homework 4
 
 In `logging_controller.py` set `hazelcast_path` to Hazelcast bin folder (Hazelcast for Windows). That folder should contain `hz-start.bat`.  
 
@@ -32,12 +32,13 @@ python logging_controller.py -p 8005
 
 ```shell
 cd messages_service
-python messages_service.py
+python messages_controller.py -p 8001
+python messages_controller.py -p 8002
 ```
 
 ```shell
 cd facade_service
-python facade_service.py
+python facade_controller.py
 ```
 
 Use Requests.http to send requests.
